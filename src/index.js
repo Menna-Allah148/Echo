@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.css';
+
+// start mock worker in development when REACT_APP_USE_API is false
+if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_USE_API === 'false') {
+  // eslint-disable-next-line no-console
+  console.info('Starting dev fetch mock (frontend-only mock)');
+  import('./mocks/browser').then(({ start }) => start());
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(<App />);
